@@ -74,12 +74,16 @@ export default {
       phaser.load.image('menu', './img/menu.png');
     },
     startScreenCreate (phaser) {
-      // Add startScreen screen.
-      // It will act as a button to start the game.
-      phaser.add.text(16, 16, 'play', { fontSize: '32px', fill: '#fff' })
+      var bg = phaser.add.image(0, 0, 'buttonBG');
+      var text = phaser.add.image(0, 0, 'buttonText');
+
+      phaser.add.container(400, 300, [ bg, text ]);
+
+      bg.setInteractive();
+
       phaser.input.once('pointerup', () => {
-            this.game.scene.start('Game')
-        });
+        this.game.scene.start('Game')
+      });
     },
     preload (phaser) {
       phaser.load.image('sky', './img/sky.png')
