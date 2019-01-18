@@ -1,5 +1,8 @@
 <template>
-  <div id="gameframe"></div>
+  <div>
+    <div id="gameframe"></div>
+    <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+  </div>
 </template>
 
 <script>
@@ -71,7 +74,10 @@ export default {
   },
   methods: {
     startScreenPreload (phaser) {
-      phaser.load.image('menu', './img/menu.png');
+      let camera = phaser.cameras.add(0, 0, this.width, this.height)
+      camera.setBackgroundColor('#ffd700');
+      phaser.load.image('buttonBG', './img/button-bg.png');
+      phaser.load.image('buttonText', './img/button-text.png');
     },
     startScreenCreate (phaser) {
       var bg = phaser.add.image(0, 0, 'buttonBG');
