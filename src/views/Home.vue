@@ -76,16 +76,38 @@ export default {
     startScreenPreload (phaser) {
       let camera = phaser.cameras.add(0, 0, this.width, this.height)
       camera.setBackgroundColor('#ffd700');
-      phaser.load.image('buttonBG', './img/button-bg.png');
-      phaser.load.image('buttonText', './img/button-text.png');
+      phaser.load.image('tangerine', './img/tangerine.png');
+      for(var i = 0; i < this.zodiacAssets.length; i++){
+        phaser.load.image('zodiac'+i.toString(), this.zodiacAssets[i]);
+      }
     },
     startScreenCreate (phaser) {
-      var bg = phaser.add.image(0, 0, 'buttonBG');
-      var text = phaser.add.image(0, 0, 'buttonText');
+      phaser.add.text(this.width/2, 40, "Select your zodiac", {font: "18px Arial", fill: "#000"}).setOrigin(0.5);
+      // phaser.scrollingMap = phaser.add.tileSprite(0, 0, this.width/2+this.zodiacAssets.length*64+128, this.height, "transp");
+      // phaser.scrollingMap.inputEnabled = true;
+      // phaser.scrollingMap.input.enableDrag(false);
+      // phaser.scrollingMap.savedPosition = new Phaser.Point(phaser.scrollingMap.x, phaser.scrollingMap.y);
+      // phaser.scrollingMap.isBeingDragged = false; 
+      // phaser.scrollingMap.movingSpeed = 0; 
+      // phaser.scrollingMap.input.allowVerticalDrag = false;
+      // phaser.scrollingMap.input.boundsRect = new Phaser.Rectangle(this.width - phaser.scrollingMap.width, this.height - phaser.scrollingMap.height, phaser.scrollingMap.width * 2 - this.width, phaser.scrollingMap.height * 2 - this.height);
+      for(var i = 0; i < this.zodiacAssets.length; i++){
+            var zodiac = phaser.add.image(this.width/2, this.height/2, 'zodiac'+i.toString()).setOrigin(0.5);
+            phaser.scrollingMap.addChild(zodiac)
+      }
+      phaser.scrollingMap.events.onDragStart.add(() => {
+            phaser.scrollingMap.isBeingDragged = true;
+            phaser.scrollingMap.movingSpeed = 0;
+      });
+      phaser.scrollingMap.events.onDragStop.add(() => {
+            phaser.scrollingMap.isBeingDragged = false;
+      });
+          
+      var startText = phaser.add.text(0, 60, 'Click anywhere to start', { fontSize: '18px', fill: '#000', align: 'center' }).setOrigin(0.5)
+      var startButton = phaser.add.image(0, 0, 'tangerine');
+      phaser.add.container(400, 300, [startButton, startText]);
 
-      phaser.add.container(400, 300, [ bg, text ]);
-
-      bg.setInteractive();
+      startButton.setInteractive();
 
       phaser.input.once('pointerup', () => {
         this.game.scene.start('Game')
@@ -238,6 +260,20 @@ export default {
   },
   data () {
     return {
+      zodiacAssets: [
+        './img/zodiac/001-boar.png',
+        './img/zodiac/002-rat.png',
+        './img/zodiac/003-ox.png',
+        './img/zodiac/004-tiger.png',
+        './img/zodiac/005-rabbit.png',
+        './img/zodiac/006-dragon.png',
+        './img/zodiac/007-snake.png',
+        './img/zodiac/008-horse.png',
+        './img/zodiac/009-goat.png',
+        './img/zodiac/010-monkey.png',
+        './img/zodiac/011-rooster.png',
+        './img/zodiac/012-dog.png',
+      ],
       game: null,
       startScreen: null,
       gameScreen: null,
