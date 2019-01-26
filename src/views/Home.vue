@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="gameframe"></div>
-    <div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   </div>
 </template>
 
@@ -39,7 +38,6 @@ export default {
         preload: function preload () {
           self.startScreenPreload(this)
         },
-
         create: function create () {
           self.startScreenCreate(this)
         }
@@ -59,7 +57,6 @@ export default {
         preload: function preload () {
           self.endScreenPreload(this)
         },
-
         create: function create () {
           self.endScreenCreate(this)
         }
@@ -76,11 +73,11 @@ export default {
     startScreenPreload (phaser) {
       let camera = phaser.cameras.add(0, 0, this.width, this.height)
       camera.setBackgroundColor('#ffd700');
-      phaser.load.image('coin', './img/coin.png');
+      phaser.load.image('angpow', './img/angpow.png');
     },
     startScreenCreate (phaser) {
+      var startButton = phaser.add.image(0, 0, 'angpow');
       var startText = phaser.add.text(0, 60, 'Click anywhere to start', { fontSize: '18px', fill: '#000', align: 'center' }).setOrigin(0.5)
-      var startButton = phaser.add.image(0, 0, 'coin');
       phaser.add.container(400, 300, [startButton, startText]);
 
       startButton.setInteractive();
@@ -160,18 +157,14 @@ export default {
 
       phaser.physics.add.overlap(this.player, this.stars, this.collectStar, null, phaser)
       phaser.physics.add.collider(this.player, this.bombs, () => {
-      // eslint-disable-next-line
-      phaser.physics.pause()
-      this.player.setTint(0xff0000)
-      this.player.anims.play('turn')
+        // eslint-disable-next-line
+        phaser.physics.pause()
+        this.player.setTint(0xff0000)
+        this.player.anims.play('turn')
 
-      this.gameOver = true
-
-      phaser.input.once('pointerup', () => {
+        this.gameOver = true
         this.game.scene.start('End')
-      });
-      
-    }, null, phaser)
+      }, null, phaser)
     },
     update () {
       if (this.gameOver) {
@@ -219,8 +212,8 @@ export default {
       camera.setBackgroundColor('#ffd700');
     },
     endScreenCreate (phaser) {
-      var startText = phaser.add.text(0, 60, 'Game over', { fontSize: '18px', fill: '#000', align: 'center' }).setOrigin(0.5)
-      var startButton = phaser.add.image(0, 0, 'coin');
+      var startButton = phaser.add.image(0, 0, 'angpow');
+      var startText = phaser.add.text(0, 80, 'Game over\n\rYour score: ' + this.score, { fontSize: '18px', fill: '#000', align: 'center' }).setOrigin(0.5)
       phaser.add.container(400, 300, [startButton, startText]);
 
       startButton.setInteractive();
